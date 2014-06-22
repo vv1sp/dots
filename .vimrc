@@ -1,29 +1,30 @@
 ""=============================================================================
 " Description: vv1sp bundle .vimrc
 " Author: Zolkin Yuri <vv1sp@gmail.com>
-" URL: https://vv1sp
+" URL: https://github.com/vv1sp/dots
 "=============================================================================
 "For vunde
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-" let Vundle manage Vundle, required
+" Let Vundle manage Vundle, required
  Bundle 'gmarik/vundle'
-"дерево проекта
+" Project tree
  Bundle "scrooloose/nerdtree"
-"clang  автокомплит
+" Semantic autocomplete 
  Bundle "Valloric/YouCompleteMe"
-" tagbar
+" Using structure project 
  Bundle "majutsushi/tagbar"
-" UltiSnips
+" Snippets for C/C++ and many others lang 
  Bundle "SirVer/ultisnips"
  Bundle "honza/vim-snippets"
 " Airline
  Bundle 'bling/vim-airline'
-" code list
+" code space managment 
  Bundle "szw/vim-ctrlspace"
-" For vundle
+" TODO, FIXME and XXX support
  Bundle "davidoc/taskpaper"
+" For vundle
 filetype plugin indent on
 
 """"""""""""
@@ -189,5 +190,5 @@ endif
 set guioptions-=T 
 set guioptions-=m
 set guioptions-=e
-:set guioptions-=r 
-:set guioptions-=L
+set guioptions-=r 
+set guioptions-=L
