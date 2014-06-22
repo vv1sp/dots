@@ -1,16 +1,81 @@
-""""""""""""""
-" keymaps
-""""""""""""""
- nnoremap <silent> <F2> :NERDTreeFocus <CR>
- nnoremap <silent> <F3> :TagbarOpenAutoClose<CR>
- nnoremap <silent> <F6> :Make <CR>
- map <F4> :!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-""""""""""""" 
-" keymaps 
-"""""""""""""
-"""""""""""""""""""""""
-" UltiSnips + YCM = <3
-"""""""""""""""""""""""
+""=============================================================================
+" Description: vv1sp bundle .vimrc
+" Author: Zolkin Yuri <vv1sp@gmail.com>
+" URL: https://vv1sp
+"=============================================================================
+"For vunde
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" let Vundle manage Vundle, required
+ Bundle 'gmarik/vundle'
+"дерево проекта
+ Bundle "scrooloose/nerdtree"
+"clang  автокомплит
+ Bundle "Valloric/YouCompleteMe"
+" tagbar
+ Bundle "majutsushi/tagbar"
+" UltiSnips
+ Bundle "SirVer/ultisnips"
+ Bundle "honza/vim-snippets"
+" Airline
+ Bundle 'bling/vim-airline'
+" code list
+ Bundle "szw/vim-ctrlspace"
+" For vundle
+ Bundle "davidoc/taskpaper"
+filetype plugin indent on
+
+""""""""""""
+""NERDTree""
+""""""""""""
+let g:NERDTreeQuitOnOpen=1
+
+""""""""""""""""""""""""
+"" ctr-space configure""
+""""""""""""""""""""""""
+hi CtrlSpaceSelected term=reverse ctermfg=187   guifg=#d7d7af ctermbg=23    guibg=#005f5f cterm=bold gui=bold
+hi CtrlSpaceNormal   term=NONE    ctermfg=244   guifg=#808080 ctermbg=232   guibg=#080808 cterm=NONE gui=NONE
+hi CtrlSpaceSearch   ctermfg=220  guifg=#ffd700 ctermbg=NONE  guibg=NONE    cterm=bold    gui=bold
+hi CtrlSpaceStatus   ctermfg=230  guifg=#ffffd7 ctermbg=234   guibg=#1c1c1c cterm=NONE    gui=NONE
+let g:ctrlspace_use_mouse_and_arrow=1
+
+""""""""""""""""""""""""""""""""
+""YCM - C/C++ clang completion""
+""""""""""""""""""""""""""""""""
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_seed_identifiers_with_synatx = 1
+let g:ycm_confirm_extra_conf = 1
+let g:ycm_warning_symbol='*⇝' 
+let g:ycm_error_symbol='⇝'  
+let g:ycm_use_ultisnips_completer = 1
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
+
+"""""""""""
+""airline"" 
+"""""""""""
+let g:airline_theme             = 'bubblegum'
+let g:airline_enable_branch     = 1
+let g:airline_enable_syntastic  = 1
+let g:airline_detect_modified   = 1
+let g:airline_exclude_preview   = 1
+
+""""""""""""""""""""""""""
+"" vim-powerline symbols""
+""""""""""""""""""""""""""
+let g:airline_left_sep          = ''
+let g:airline_left_alt_sep      = ''
+let g:airline_right_sep         = ''
+let g:airline_right_alt_sep     = ''
+let g:airline_branch_prefix     = ''
+let g:airline_readonly_symbol   = ''
+let g:airline_linecolumn_prefix = ''
+
+""""""""""""""""""""""""
+""YCM + UltiSnips = <3""
+""""""""""""""""""""""""
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
@@ -29,141 +94,100 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsListSnippets="<c-e>"
-let g:UltiSnipsSnippetsDir="~/.vim/bundle/vim-snippets/snippets"
 " this mapping Enter key to <C-y> to chose the current highlight item 
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"""""""""""""""""""""""""
-" UltiSnips + YCM = <3
-"""""""""""""""""""""""""
 
 """"""""""""""""""""""
-" Make script
+""Custom font config""
 """"""""""""""""""""""
- fun! SetMkfile()
-   let filemk = "Makefile"
-   let dirmk  = "build/"
-   let pathmk = "./"
-   let depth  = 1
-   while depth < 4
-     if filereadable(pathmk . dirmk . filemk)
-        let pathmk = pathmk . dirmk 
-        echo pathmk
-        return pathmk
-     endif
-     if filereadable(pathmk . filemk)
-       return pathmk
-     endif
-     let depth += 1
-     let pathmk = "../" . pathmk
-   endwhile
-   return "."
- endf
- command! -nargs=* Make tabnew | let $mkpath = SetMkfile() | make <args> -C $mkpath | cwindow 10
-""""""""""""""""""""""
-" Make script
-""""""""""""""""""""""
- set mouse=a
- set t_Co=256
- set clipboard=unnamedplus
- set paste
+if has("gui_running")
+   if has("gui_gtk2")
+        let dsm=system('fc-list | grep -c Droid\ Sans\ Mono')
+        let cons=system('fc-list | grep -c Inconsola')
+        if ( dsm > 0)
+           set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
+        elseif ( cons > 0)
+           set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
+        else 
+           set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
+        endif
+   elseif has("gui_win32")
+      set guifont=Droid\ Sans\ Mono:h10,Consolas:h11:cANSI
+   endif
+endif
 
-" http://vim.wikia.com/wiki/Auto_save_files_when_focus_is_lost
- au FocusLost * silent! wa
+source ~/.vim/vimrc
+source ~/.vim/Make.vim
+
+" Enable mouse
+set mouse=a
+" Force 256 colors terminal 
+set t_Co=256
+" highlight cursor line
+set cursorline
+" Enable X11 clipboard
+set clipboard=unnamedplus
+" Formating on paste
+set paste
+" Auto save files when focus is lost
+au FocusLost * silent! wa
 " disable compatible with vi
- set nocompatible   
+set nocompatible   
 " enhanced command-line completion
- set wildmenu    
+set wildmenu    
+" Ignore following files when completing file/directory names
+" Version control
+set wildignore+=.hg,.git,.svn
 " always show status line
- set laststatus=2    
- set ruler
+set laststatus=2    
+set ruler
 " enable line numbers
- set number
+set number
 " disable trash files
- set nobackup
- set noswapfile
- set encoding=utf-8 " Кодировка файлов по умолчанию
- set fileencodings=utf8,cp1251 " Возможные кодировки файлов, если файл не в unicode кодировке,
- " то будет использоваться cp1251
- set hlsearch
- set incsearch
-
-""""""""""""""""""""""""""""""
-" airline
-""""""""""""""""""""""""""""""
- let g:airline_theme             = 'powerlineish'
- let g:airline_enable_branch     = 1
- let g:airline_enable_syntastic  = 1
- let g:airline_detect_modified   = 1
-
- " vim-powerline symbols
- let g:airline_left_sep          = '⮀'
- let g:airline_left_alt_sep      = '⮁'
- let g:airline_right_sep         = '⮂'
- let g:airline_right_alt_sep     = '⮃'
- let g:airline_branch_prefix     = '⭠'
- let g:airline_readonly_symbol   = '⭤'
- let g:airline_linecolumn_prefix = '⭡'
- """""""""""""""""""""
- " airline end 
- """""""""""""""""""""
-
+set nobackup
+set noswapfile
+" Кодировка файлов по умолчанию
+set encoding=utf-8
+" Возможные кодировки файлов, если файл не в unicode кодировке,
+" то будет использоваться cp1251
+set fileencodings=utf8,cp1251,
+" online serch 
+set hlsearch
+set incsearch
 "colorscheme slate
-colorscheme xoria256
-
- let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
- let g:ycm_collect_identifiers_from_tags_files = 1
- let g:ycm_autoclose_preview_window_after_completion=1
- let g:ycm_collect_identifiers_from_tags_files=1
- let g:ycm_register_as_syntastic_checker = 1 
- let g:ycm_seed_identifiers_with_synatx = 1
- let g:ycm_confirm_extra_conf = 1
- let g:ycm_use_ultisnips_completer = 1
-
+colorscheme molokai 
 " swap tabs on space
-"size of a hard tabstop
- set tabstop=3
+" size of a hard tabstop
+set tabstop=3
 " size of an "indent"
- set shiftwidth=3
+set shiftwidth=3
 " a combination of spaces and tabs are used to simulate tab stops at a width
 " other than the (hard)tabstop
- set softtabstop=3
+set softtabstop=3
 "make "tab" insert indents instead of tabs at the beginning of a line
- set smarttab
+set smarttab
 " always uses spaces instead of tab characters
- set expandtab
-
- filetype off  "обязательно!
-
- set rtp+=~/.vim/bundle/vundle/
- call vundle#rc()
- filetype plugin indent on     " обязательно!
-
-"репозитории на github
-" let Vundle manage Vundle, required
- Bundle 'gmarik/vundle'
-"дерево проекта
- Bundle "https://github.com/scrooloose/nerdtree"
-"clang  автокомплит
- Bundle "https://github.com/Valloric/YouCompleteMe.git"
-" code navigation  
- Bundle "kokx/exuberant-ctags" 
-" monokai colorscheme
- Bundle "vim-scripts/xoria256.vim"
- Bundle "https://github.com/tomasr/molokai.git"
- Bundle "https://github.com/baskerville/bubblegum.git"
-" CMake
- Bundle "https://github.com/vhdirk/vim-cmake.git"
-" tagbar
- Bundle "majutsushi/tagbar"
-" UltiSnips
- Bundle "SirVer/ultisnips"
-" Snippets are separated from the engine. Add this if you want them:
- Plugin 'honza/vim-snippets'
-" Airline
- Bundle 'bling/vim-airline'
-" gdb integration
-" Bundle "xieyu/pyclewn"
-" multiple cursor
- Bundle 'terryma/vim-multiple-cursors'
+set expandtab
+" autoindent 
+set autoindent
+" Do smart indenting when starting a new line
+" Only available when compiled with the +smartindent feature
+set smartindent
+autocmd BufEnter * silent! lcd %:p:h
+" Always show tabs
+" set showtabline=2
+" Display invisible characters
+set list
+if version >= 700
+    set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
+else
+    set listchars=tab:»\ ,trail:·,extends:>,precedes:<,nbsp:_
+endif
+" hide toolbar
+set guioptions-=T 
+set guioptions-=m
+set guioptions-=e
+:set guioptions-=r 
+:set guioptions-=L
