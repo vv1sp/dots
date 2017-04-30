@@ -126,6 +126,4 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
     ssh-add
 fi
 
-source ~/.bash-git-prompt/gitprompt.sh
-  GIT_PROMPT_ONLY_IN_REPO=1
-
+export GOPATH=$HOME/workspace/go
