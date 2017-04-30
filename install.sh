@@ -1,5 +1,16 @@
 #!/bin/bash
-ln -s $PWD/vim $HOME/.vim
-ln -s $PWD/vimrc $HOME/.vimrc
-ln -s $PWD/bashrc $HOME/.bashrc
-ln -s $PWD/bash-git-prompt $HOME/.bash-git-prompt
+
+FileList=( vim vimrc bashrc atom)
+DstPrfx="$HOME/."
+SrcPrfx="$HOME/dots/"
+
+for item in "${FileList[@]}"
+  do
+    if [ -e $DstPrfx$item ]; then
+      printf '%s is exist!\n' "$DstPrfx$item"
+      rm -rf $DstPrfx$item
+    fi
+
+  printf 'Create symlink form %s to %s\n' "$SrcPrfx$item" "$DstPrfx$item"
+  ln -s $SrcPrfx$item $DstPrfx$item
+done
