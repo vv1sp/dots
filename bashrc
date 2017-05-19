@@ -127,3 +127,7 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
 fi
 
 export GOPATH=$HOME/workspace/go
+. /usr/share/powerline/bindings/bash/powerline.sh
+if [ "$TERM" != "screen-256color" ] ; then
+	export TERM=xterm-256color
+fi

@@ -6,10 +6,16 @@
 
 " Vundle configure and install plugins
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+"set rtp+=~/.vim/bundle/vundle/
+"call vundle#rc()
 " Let Vundle manage Vundle, required
- Bundle 'gmarik/vundle'
+ Bundle 'VundleVim/Vundle.vim'
 " Project tree
  Bundle "scrooloose/nerdtree"
 " Semantic autocomplete
@@ -27,9 +33,9 @@ call vundle#rc()
 Bundle 'nanotech/jellybeans.vim'
 filetype plugin indent on
 
-source ~/.vim/vimrc
-source ~/.vim/Make.vim
-source ~/.vim/codestyle.vim
+" source ~/.vim/vimrc
+" source ~/.vim/Make.vim
+" source ~/.vim/codestyle.vim
 
 """"""""""""
 ""NERDTree
@@ -168,3 +174,7 @@ if has("gui_running")
     set guioptions-=r
     set guioptions-=L
 endif
+set laststatus=2
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
