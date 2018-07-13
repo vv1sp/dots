@@ -1,6 +1,11 @@
 #!/bin/bash
 
-FileList=( vim vimrc bashrc atom)
+FileList=(
+	vim \
+	vimrc \
+	bashrc \
+	atom)
+
 DstPrfx="$HOME/."
 SrcPrfx="$HOME/dots/"
 
@@ -14,3 +19,5 @@ for item in "${FileList[@]}"
   printf 'Create symlink form %s to %s\n' "$SrcPrfx$item" "$DstPrfx$item"
   ln -s $SrcPrfx$item $DstPrfx$item
 done
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
